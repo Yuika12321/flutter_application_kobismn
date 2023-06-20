@@ -28,7 +28,7 @@ class KobisApi {
     }
   }
 
-  getMovieDetail({required String movieCd}) async {
+  Future<dynamic> getMovieDetail({required String movieCd}) async {
     var uri = '$_site/movie/searchMovieInfo.json';
     uri = '$uri?key=$apiKey';
     uri = '$uri&movieCd=$movieCd';
@@ -36,7 +36,12 @@ class KobisApi {
     if (response.statusCode == 200) {
       var movie =
           jsonDecode(response.body)['movieInfoResult']['movieInfo'] as dynamic;
-      print(movie['movieNm']);
+
+      return movie;
+      // print(movie['movieNm']);
+      // print(movie['movieNmEn']);
+      // movie[0] a[1] => 배열, 리스트(index=주소) << 보기에 안편함
+      // movie['name'] = 123 => dynamic
     } else {
       return [];
     }
