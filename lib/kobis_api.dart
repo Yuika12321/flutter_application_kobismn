@@ -61,4 +61,26 @@ class KobisApi {
       return [];
     }
   }
+
+  Future<List<dynamic>> getSearchMovieList(
+      {required String searchType, required String searchValue}) async {
+    var uri = '$_site/movie/searchMovieList.json';
+    uri = '$uri?key=$apiKey';
+    uri = '$uri&$searchType=$searchValue';
+
+    var response = await http.get(Uri.parse(uri));
+    if (response.statusCode == 200) {
+      // 정상 boxOfficeResult.dailyBoxOfficeList
+      try {
+        var movies = jsonDecode(response.body)['movieListResult']['movieList']
+            as List<dynamic>;
+        return movies;
+      } catch (e) {
+        return [];
+      }
+    } else {
+      // 에러
+      return [];
+    }
+  }
 }
